@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barber Studio</title>
+<style>
+:root{--bg:#101010;--panel:#1b1b1b;--gold:#d7ad62;--text:#f7f3eb;--muted:#b8b1a5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.5}
+header{padding:18px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;position:sticky;top:0;background:#101010ed;z-index:2}
+.brand{font-size:1.15rem;font-weight:800;letter-spacing:2px;color:var(--gold)}nav a{color:var(--text);text-decoration:none;margin-left:18px;font-size:.9rem}
+.hero{padding:85px 7%;min-height:440px;display:flex;align-items:center;background:linear-gradient(90deg,#101010 10%,#101010d9 55%,#10101070),url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1600&q=80') center/cover}
+.hero-inner{max-width:650px}.eyebrow{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:.8rem}
+h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1.02;margin:12px 0}.hero p,.muted{color:var(--muted)}
+.btn{display:inline-block;background:var(--gold);color:#17120a;text-decoration:none;padding:12px 20px;border:0;border-radius:3px;font-weight:700;cursor:pointer;margin:8px 8px 0 0}
+.btn.secondary{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+section{padding:58px 7%}.section-title{font-size:2rem;margin:0 0 8px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:24px}
+.card{background:var(--panel);padding:22px;border:1px solid #333;border-radius:7px}.price{color:var(--gold);font-weight:bold}
+.gallerybox{height:145px;border-radius:5px;background:linear-gradient(135deg,#34302a,#171717);display:grid;place-items:center;color:var(--gold);font-size:2rem}
+.contact{background:#181818}.admin{max-width:850px;margin:30px auto;background:#171717;padding:24px;border:1px solid #444;border-radius:8px}
+input,textarea{width:100%;padding:11px;margin:6px 0 14px;background:#0d0d0d;border:1px solid #555;color:white;border-radius:4px}
+label{font-size:.9rem;color:var(--muted)}.hidden{display:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid #333}
+@media(max-width:650px){nav a{margin-left:9px;font-size:.78rem}.hero{padding-top:65px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="brand" id="brand">YOUR BARBER STUDIO</div><nav><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a></nav></header>
+<main>
+<section class="hero"><div class="hero-inner"><div class="eyebrow">Style • Confidence • Craft</div><h1 id="heroName">Your Style,<br>Our Craft.</h1><p id="tagline">Fresh cuts, clean fades and classic grooming. Visit us for your next look.</p><a class="btn" id="bookBtn" href="#" target="_blank">WhatsApp Booking</a><a class="btn secondary" href="#services">Our Services</a></div></section>
+<section id="services"><div class="eyebrow">What we do</div><h2 class="section-title">Services & Prices</h2><p class="muted">Prices can be updated from the admin section below.</p><div class="grid" id="serviceList"></div></section>
+<section id="about"><div class="eyebrow">About the shop</div><h2 class="section-title">Good grooming. Great confidence.</h2><p class="muted" id="aboutText">We’re a local barber studio focused on sharp haircuts, neat beard styling and friendly service. Add your own shop story in Admin.</p></section>
+<section><div class="eyebrow">Our work</div><h2 class="section-title">Gallery</h2><div class="grid"><div class="gallerybox">✂</div><div class="gallerybox">▰</div><div class="gallerybox">✦</div></div><p class="muted">Gallery placeholders — replace these with your haircut photos when you publish the real site.</p></section>
+<section class="contact" id="contact"><div class="eyebrow">Find us</div><h2 class="section-title">Visit or book a slot</h2><p id="address" class="muted">Your shop address goes here</p><p id="phoneText" class="muted">Phone: Add your number in Admin</p><a class="btn" id="contactBtn" href="#" target="_blank">Message on WhatsApp</a></section>
+<section class="admin" id="admin"><div class="eyebrow">Owner area</div><h2 class="section-title">Admin Panel</h2><p class="muted">इस demo में बदलाव इसी ब्राउज़र में सेव होते हैं। यह असली सुरक्षित online admin/database नहीं है।</p>
+<div id="loginBox"><label>Admin password (demo default: 1234)</label><input id="password" type="password" placeholder="Password"><button class="btn" onclick="login()">Login</button><p id="loginMsg" class="muted"></p></div>
+<div id="editor" class="hidden">
+<div class="row"><div><label>Shop / Brand name</label><input id="fName"></div><div><label>WhatsApp number (country code सहित, जैसे 919876543210)</label><input id="fPhone"></div></div>
+<label>Tagline</label><input id="fTag">
+<label>About your shop</label><textarea id="fAbout" rows="3"></textarea>
+<label>Shop address</label><textarea id="fAddress" rows="2"></textarea>
+<label>Services (हर लाइन: Service name | Price)</label><textarea id="fServices" rows="5"></textarea>
+<button class="btn" onclick="save()">Save changes</button><button class="btn secondary" onclick="logout()">Logout</button><p id="saveMsg" class="muted"></p>
+</div></section>
+</main><footer>© <span id="year"></span> <span id="footName">Your Barber Studio</span> • Made with style</footer>
+<script>
+const defaults={name:"YOUR BARBER STUDIO",phone:"",tag:"Fresh cuts, clean fades and classic grooming. Visit us for your next look.",about:"We’re a local barber studio focused on sharp haircuts, neat beard styling and friendly service. Add your own shop story in Admin.",address:"Your shop address goes here",services:[["Classic Haircut","₹199"],["Fade Haircut","₹299"],["Beard Trim","₹99"],["Haircut + Beard","₹349"]]};
+let data={...defaults,...JSON.parse(localStorage.getItem("barberSiteData")||"{}")};
+function render(){
+document.title=data.name;document.getElementById("brand").textContent=data.name;document.getElementById("heroName").innerHTML=data.name.replace(/&/g,"&amp;")+"<br>Style Studio";document.getElementById("tagline").textContent=data.tag;document.getElementById("aboutText").textContent=data.about;document.getElementById("address").textContent=data.address;document.getElementById("phoneText").textContent=data.phone?"Phone: +"+data.phone:"Phone: Add your number in Admin";document.getElementById("footName").textContent=data.name;document.getElementById("year").textContent=new Date().getFullYear();
+let wa=data.phone?"https://wa.me/"+data.phone+"?text="+encodeURIComponent("Hi, I’d like to book an appointment."):"#";document.getElementById("bookBtn").href=wa;document.getElementById("contactBtn").href=wa;
+document.getElementById("serviceList").innerHTML=data.services.map(s=>`<article class="card"><h3>${escapeHtml(s[0])}</h3><div class="price">${escapeHtml(s[1])}</div></article>`).join("");
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function login(){if(document.getElementById("password").value==="1234"){document.getElementById("loginBox").classList.add("hidden");document.getElementById("editor").classList.remove("hidden");fillForm();}else document.getElementById("loginMsg").textContent="गलत password।";}
+function fillForm(){document.getElementById("fName").value=data.name;document.getElementById("fPhone").value=data.phone;document.getElementById("fTag").value=data.tag;document.getElementById("fAbout").value=data.about;document.getElementById("fAddress").value=data.address;document.getElementById("fServices").value=data.services.map(s=>s.join(" | ")).join("\n");}
+function save(){data={name:fName.value.trim()||defaults.name,phone:fPhone.value.replace(/\D/g,""),tag:fTag.value,about:fAbout.value,address:fAddress.value,services:fServices.value.split("\n").filter(Boolean).map(line=>{let p=line.split("|");return[(p[0]||"Service").trim(),(p[1]||"Ask for price").trim()]})};localStorage.setItem("barberSiteData",JSON.stringify(data));render();saveMsg.textContent="Changes saved in this browser.";}
+function logout(){document.getElementById("editor").classList.add("hidden");document.getElementById("loginBox").classList.remove("hidden");document.getElementById("password").value="";}
+render();
+</script>
+</body></html>
